@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>汽车展示</title>
+</head>
+<body>
+    <button id="btnadd" value="">向服务器发送json</button>
+    <button id="btnget" value="">向服务器接收json</button>
+
+</body>
+<script src="js/jquery-1.11.3.js"></script>
+<script>
+    $(function () {
+
+        var carlist=new Array();
+        carlist.push({cno:"123",cname:"奔驰C200",cprice:"260000"});
+        carlist.push({cno:"176",cname:"奥迪A4L",cprice:"280000"});
+        carlist.push({cno:"644",cname:"路虎揽胜",cprice:"1460000"});
+
+        $("#btnadd").click(function () {
+            $.ajax({
+                //访问类型
+                type :"POST",
+                url:"CarController/listcar",
+                //发送信息至服务器时内容编码类型，(默认: "application/x-www-form-urlencoded")
+                contentType : "application/json;charset=UTF-8",
+                data:JSON.stringify(carlist),
+                //预期服务器返回的数据类型
+               // dataType : "text",
+                success:function (data) {
+                    alert(data);
+                    console.log(data)
+                }
+            })
+        });
+        
+        $("#btnget").click(function () {
+            $.ajax({
+                //请求谓词类型
+                type : "POST",
+                url:"CarController/getCarlist",
+                //发送信息至服务器时内容编码类型，(默认: "application/x-www-form-urlencoded")
+                contentType : "application/json;charset=UTF-8",
+                data : JSON.stringify(carlist), //将carlist对象转换成json字符串
+                //预期服务器返回的数据类型
+                //dataType : "json",
+                success:function (data) {
+                    console.log(data);
+                    $.each(data,function (inde,obj) {
+                        console.log(obj)
+                    })
+                }
+            })
+        });
+
+
+    });
+</script>
+</html>

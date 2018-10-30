@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
+
+  <!--注册servlet-->
+  <servlet>
+    <!--名称 -->
+    <servlet-name>springmvc</servlet-name>
+    <!-- Servlet类:前端控制器DispatcherServlet -->
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!--SpringMVC配置参数文件的位置 -->
+      <param-name>contextConfigLocation</param-name>
+      <!--这里是存放在resources目录下的springmvc-servlet.xml -->
+      <param-value>classpath*:springmvc-servlet.xml</param-value>
+    </init-param>
+    <!-- 启动顺序，数字越小，启动越早 -->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <!--所有请求都会被springmvc拦截 -->
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <!--首先加载web.xml DispatcherServlet收到用户请求，拿到请求路径，扫描servlet.xml下面的bean,看是否有注册controller,标记了controller被ioc容器
+  所管理，找到与你匹配的controller,把请求转发给页面控制器，页面控制处理器再次匹配你的访问路径，匹配到相应的action,调用业务对象，
+  返回模型数据-->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+</web-app>
